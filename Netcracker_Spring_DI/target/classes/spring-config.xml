@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <!-- Task1 -->
+    <bean id="CIEmployer" class="model.task1.Employer" scope="prototype">
+        <constructor-arg index="0" value="Vasya"/>
+        <constructor-arg index="1" value="M"/>
+        <constructor-arg index="2" value="20000"/>
+    </bean>
+    <bean id="SIEmployer" class="model.task1.Employer" scope="prototype">
+        <property name="name" value="Masha"/>
+        <property name="gender" value="F"/>
+        <property name="salary" value="19000"/>
+    </bean>
+
+    <!-- Task2 -->
+    <bean id="Person1" class="model.task2.Person" scope="prototype">
+        <property name="name" value="Vanya"/>
+    </bean>
+    <bean id="Person2" class="model.task2.Person" scope="prototype">
+        <property name="name" value="Petya"/>
+    </bean>
+    <bean id="Person3" class="model.task2.Person" scope="prototype">
+        <property name="name" value="Katya"/>
+    </bean>
+    <bean id="People" class="model.task2.People" scope="prototype">
+        <property name="values">
+            <util:list id="list1" value-type="java.lang.Integer">
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </util:list>
+        </property>
+        <property name="peopleSet">
+            <set>
+                <ref bean="Person1"/>
+                <ref bean="Person2"/>
+                <ref bean="Person3"/>
+            </set>
+        </property>
+        <property name="peopleMap">
+            <map>
+                <entry key="#{Person1}" value="1"/>
+                <entry key="#{Person2}" value="2"/>
+                <entry key="#{Person3}" value="3"/>
+            </map>
+        </property>
+    </bean>
+
+    <!-- Task3 -->
+    <bean id="Parent" class="model.task3.Message" scope="prototype">
+        <property name="text" value="Some message"/>
+    </bean>
+    <bean id="Child" class="model.task3.Message" scope="prototype" parent="Parent">
+        <property name="comment" value="Some comment"/>
+    </bean>
+
+    <!-- Task4 -->
+    <bean id="DefaultCircle" class="model.task4.CircleDefault"/>
+    <bean id="Circle" class="model.task4.Circle" scope="prototype">
+        <property name="x" value="#{DefaultCircle.x}"/>
+        <property name="y" value="#{DefaultCircle.y}"/>
+        <property name="radius" value="#{DefaultCircle.radius}"/>
+        <property name="color" value="#{DefaultCircle.color}"/>
+    </bean>
+
+    <!-- Task05 -->
+    <bean id="simpleElement" class="model.task5.SimpleElement"/>
+    <bean id="ElementWithoutAutowiring" class="model.task5.Element">
+        <property name="name" value="WithoutAutowiring"/>
+    </bean>
+    <bean id="ElementByName" class="model.task5.Element" autowire="byName">
+        <property name="name" value="AutowireByName"/>
+    </bean>
+    <bean id="ElementByType" class="model.task5.Element" autowire="byType">
+        <property name="name" value="AutowireByType"/>
+    </bean>
+    <bean id="ElementConstructor" class="model.task5.Element" autowire="constructor">
+        <property name="name" value="AutowireConstructor"/>
+    </bean>
+
+    <!-- Task06 -->
+    <bean id="PetFactory" class="model.task6.PetFactory"/>
+    <bean id="PetFromFactory1" class="model.task6.Pet" factory-method="getPetFromFactory"/>
+    <bean id="PetFromFactory2" class="model.task6.Pet" factory-bean="PetFactory" factory-method="getPetFromFactory"/>
+
+    <!-- Task7 -->
+    <bean id="Toy" class="model.task7.Toy" scope="prototype">
+        <property name="name" value="Anna"/>
+        <property name="type" value="Doll"/>
+    </bean>
+    <bean id="LookupToy" class="model.task7.ToyFactory">
+        <lookup-method name="getToyFromFactory" bean="Toy"/>
+    </bean>
+
+</beans>
